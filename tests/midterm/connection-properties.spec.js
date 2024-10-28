@@ -1,7 +1,52 @@
 //connection properties
 
+const { chromium } = require('playwright');
+
+(async () => {
+  // Step 1: Open browser and navigate to the e-commerce page
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+  await page.goto('file://path-to-your/e-commerce-midterm.html'); // Update with the actual file path
+
+  // Step 2: Increase the quantity of Product A to 5
+  const increaseButton = await page.locator('.product[data-name="Product A"] .increase-quantity');
+  for (let i = 0; i < 4; i++) {  // Initial quantity is 1, so click 4 times to reach 5
+    await increaseButton.click();
+  }
+
+  // Step 3: Add Product A to the cart
+  await page.locator('.product[data-name="Product A"] .addToCart').click();
+
+  // Step 4 & 5: Repeat steps to ensure quantity is 5 and add Product A to the cart again
+  for (let i = 0; i < 4; i++) {  
+    await increaseButton.click();
+  }
+  await page.locator('.product[data-name="Product A"] .addToCart').click();
+
+  // Step 6: Press the Purchase button
+  await page.locator('#purchaseButton').click();
+
+  // Step 7: Verify the Total Price
+  const totalPriceText = await page.locator('#totalPrice').textContent();
+  const totalPrice = parseInt(totalPriceText);
+  if (totalPrice === 50) {
+    console.log("Correct Price");
+  } else {
+    console.log("Incorrect Price");
+  }
+
+  // Step 8 & 9: Handle the alert
+  page.on('dialog', async dialog => {
+    console.log(dialog.message());  // Print the success message to the console
+    await dialog.accept();
+  });
+
+  // Step 10: Close the browser window
+  await browser.close();
+})();
 
 
+///////////////////////
 Task-2
 1. go to the e-commerce-midterm page
 2. increase the quantity of product A to 5
