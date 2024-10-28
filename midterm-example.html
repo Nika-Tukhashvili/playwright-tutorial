@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz #3</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- jQuery UI CSS for sortable and datepicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Quiz #3</h2>
+        <form id="quizForm">
+            <!-- Username Field -->
+            <!-- Quiz Question -->
+            <div class="form-group">
+                <label for="quizQuestion-1">What is the meaning of life ? </label>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion" id="answer1" value="option1">
+                        <label class="form-check-label" for="answer1">
+                            42
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion" id="answer2" value="option2">
+                        <label class="form-check-label" for="answer2">
+                            რასაც გასცემ შენია რაც არა დაკარგულია
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion" id="answer3" value="option3">
+                        <label class="form-check-label" for="answer3">
+                            შტანგენფარგალი
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion" id="answer4" value="option4">
+                        <label class="form-check-label" for="answer4">
+                            -_-
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="quizQuestion-2">Be or not To Be</label>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion-2" id="answer1" value="option1">
+                        <label class="form-check-label" for="answer11">
+                            Nope
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion-2" id="answer2" value="option2">
+                        <label class="form-check-label" for="answer22">
+                            BE 
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion-2" id="answer3" value="option3">
+                        <label class="form-check-label" for="answer33">
+                             May BE
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quizQuestion-2" id="answer4" value="option4">
+                        <label class="form-check-label" for="answer44">
+                           Let it be
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Selectable Calendar -->
+            <div id="calendar-container" class="form-group">
+                <label for="calendar">Date</label>
+                <input type="text" class="form-control" id="calendar" placeholder="Select a date">
+            </div>
+
+            <!-- Sortable List -->
+            <div class="form-group">
+                <label>Sortable Items</label>
+                <ul id="sortable" class="list-group">
+                    <li class="list-group-item">Lord of the Rings</li>
+                    <li class="list-group-item">Game of thrones</li>
+                    <li class="list-group-item">Breaking Bad</li>
+                    <li class="list-group-item">Harry potter</li>
+                    <li class="list-group-item">Marvel</li>
+                    <li class="list-group-item">thrones</li>
+                    <li class="list-group-item">Bad</li>
+                </ul>
+            </div>
+
+            <!-- 3x3 Selectable Grid -->
+            <div class="form-group">
+                <label>Selectable Grid</label>
+                <div class="d-flex flex-wrap" style="max-width: 300px;">
+                    <!-- Grid items -->
+                    <!-- Repeat the below div 9 times (3x3) -->
+                    <div data-e2e="1" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="2" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="3" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="4" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="5" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="6" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="7" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="8" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                    <div data-e2e="9" class="p-2 border m-1 grid-item" style="width: 30%; height: 100px;"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+
+
+
+    <!-- jQuery Full Version -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(function() {
+        // jQuery UI datepicker
+        $("#calendar").datepicker();
+
+        // jQuery UI sortable list
+        $("#sortable").sortable();
+
+        // Selectable grid
+        $('.grid-item').click(function() {
+            $(this).toggleClass('bg-primary');
+        });
+    });
+</script>
+
+</body>
+</html>
