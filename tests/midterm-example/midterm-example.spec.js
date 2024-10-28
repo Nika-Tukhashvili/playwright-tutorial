@@ -151,14 +151,16 @@ test.describe('Automation Practice Tasks', () => {
 
         // Select option that contains only digits
         const question1Options = await page.locator('input[name="quizQuestion"]').elementHandles();
+        await page.locator("[class='form-check-label']").locator('text=/.*\\d+.*/').click()
+        // const question1Options1 = await page.locator('div').label(".form-check-label").textContent({ label: /^\d+$/ })
                 
-        for (const option of question1Options) {
-            const label = await option.evaluate(el => el.parentElement.textContent);
-            if (/^\d+$/.test(label.trim())) {  // Checks if label contains only digits
-              await option.click();
-              break;
-            }
-          }
+        // for (const option of question1Options) {
+        //     const label = await option.evaluate(el => el.parentElement.textContent);
+        //     if (/^\d+$/.test(label.trim())) {  // Checks if label contains only digits
+        //       await option.click();
+        //       break;
+        //     }
+        //   }
 
 
 
@@ -194,11 +196,13 @@ test.describe('Automation Practice Tasks', () => {
 
         //4
         // Move Breaking Bad to top using CSS selector
-        const breakingBad = page.locator('.list-group-item', { hasText: 'Breaking Bad' });
+        // const breakingBad = page.locator('.list-group-item', { hasText: 'Breaking Bad' });
+        const breakingBad = page.locator('text="Breaking Bad"');
         await breakingBad.dragTo(page.locator('.list-group-item').first());
 
         // Move Lord of the Rings to the top using XPath
-        const lordOfTheRings = page.locator(`xpath=//li[contains(text(), "Lord of the Rings")]`);
+        // const lordOfTheRings = page.locator(`xpath=//li[contains(text(), "Lord of the Rings")]`);
+        const lordOfTheRings = page.locator(`xpath=//li[text() = "Lord of the Rings"]`);
         await lordOfTheRings.dragTo(page.locator('.list-group-item').first());
         
 
@@ -229,7 +233,9 @@ test.describe('Automation Practice Tasks', () => {
         const marvelItem = await listItems.filter({ hasText: 'Marvel' });
         const lastItem = await listItems.last();//.nth(await listItems.count() - 1);
         const lastBox = await lastItem.boundingBox();
-        await marvelItem.dragTo(lastItem, { targetPosition: { x: 0, y: lastBox.height - 10 } });
+        // await marvelItem.dragTo(lastItem, { targetPosition: { x: 0, y: lastBox.height - 10 } });
+        const box = await page.getByText('Selectable Grid').boundingBox()
+        await marvelItem.dragTo(page.locator('body'), {targetPosition:{x:lastBox.x, y:lastBox.y+35}});
 
 
 
