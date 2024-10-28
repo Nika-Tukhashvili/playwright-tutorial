@@ -1,6 +1,64 @@
 //connection properties
 
 
+const { chromium } = require('playwright');
+
+(async () => {
+    // Launch the browser
+    const browser = await chromium.launch({ headless: false });
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    // Open midtermV1.html file in the browser
+    await page.goto('file:///path/to/midtermV1.html'); // Replace with the actual path to midtermV1.html
+
+    // Print title in the console
+    const title = await page.title();
+    console.log("Page Title:", title);
+
+    // Print URL in the console
+    const url = page.url();
+    console.log("Page URL:", url);
+
+    // Fill in the name field using XPath locator
+    await page.locator('xpath=//input[@id="name"]').fill('John');
+
+    // Fill in the last name field using CSS locator
+    await page.locator('#surname').fill('Doe');
+
+    // Fill in the current address field using any locator (CSS selector)
+    await page.locator('[data-tag="address"]').fill('1234 Elm Street');
+
+    // Fill in the actual address field using text-based locator
+    await page.getByPlaceholder('Actual Address').fill('5678 Oak Street');
+
+    // Choose the second radio button using XPath locator by index
+    await page.locator('(//input[@name="option"])[2]').check();
+
+    // Select the dog breed element using a selector that always picks the last item in the list
+    await page.locator('#dog-breeds-selector .list-group-item:last-child').click();
+
+    // Click on all elements in the dog breed list using CSS locator
+    const dogBreeds = await page.locator('#dog-breeds-selector .list-group-item');
+    for (let i = 0; i < await dogBreeds.count(); i++) {
+        await dogBreeds.nth(i).click();
+    }
+
+    // Move the slider to the right until the value is 100
+    const sliderHandle = page.locator('.slider-handle');
+    await sliderHandle.evaluate(handle => {
+        handle.style.left = '100%';
+    });
+    await page.waitForSelector('.slider-value:text("100")'); // Wait for the slider to show value 100
+
+    // Click the submit button
+    await page.locator('#submitButton').click();
+
+    // Close the browser
+    await browser.close();
+})();
+
+////////////////
 1. open midtermV1.html file in browser 
 2. print title in the console
 3. print url in the console
