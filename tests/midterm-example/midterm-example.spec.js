@@ -141,8 +141,13 @@ test.describe('Automation Practice Tasks', () => {
         await correctAnswer.click();
 
         // Select the second option
-        const secondOption = page.locator('div.form-check').nth(1).locator('input');
-        await secondOption.check();
+        await page
+            .locator('#quizForm > .form-group')
+            .first()
+            .locator('div.form-check')
+            .nth(1)
+            .locator('input[type="radio"]')
+            .click();
 
         // Select option that contains only digits
         const question1Options = await page.locator('input[name="quizQuestion"]').elementHandles();
@@ -205,10 +210,27 @@ test.describe('Automation Practice Tasks', () => {
         // const marvelItem = await listItems.locator('text=Marvel');
 
         // Drag "Marvel" to the last position
-        const marvelItem = await page.getByText('Marvel', { exact: true });
-        const lastItem = await page.locator('.list-group-item').last();
+        // const marvelItem = await page.getByText('Marvel', { exact: true });
+        // const lastItem = await page.locator('.list-group-item').last();
         
-        await marvelItem.dragTo(lastItem);
+        // await marvelItem.dragTo(lastItem);
+
+        // const listItems = page.locator('#sortable .list-group-item');
+        // const marvelItem = listItems.filter({ hasText: 'Marvel' });
+        // let targetIndex = await listItems.count() - 1;
+
+        // while (await listItems.nth(targetIndex).textContent() !== 'Marvel') {
+        //     await marvelItem.dragTo(listItems.nth(targetIndex));
+        //     targetIndex--; // Move the target up each time
+        //     await page.waitForTimeout(300); // Wait for animations to complete if needed
+        // }
+
+        const listItems = page.locator('#sortable .list-group-item');
+        const marvelItem = await listItems.filter({ hasText: 'Marvel' });
+        const lastItem = await listItems.last();//.nth(await listItems.count() - 1);
+        const lastBox = await lastItem.boundingBox();
+        await marvelItem.dragTo(lastItem, { targetPosition: { x: 0, y: lastBox.height - 10 } });
+
 
 
 
