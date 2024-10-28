@@ -1,6 +1,25 @@
 //connection properties
 
+const sliderHandle = page.locator('#slider .slider-handle');
 
+// Step 1: Get the bounding box of the slider
+const sliderBox = await sliderHandle.boundingBox();
+
+// Step 2: Calculate the end position to drag the slider to the right edge
+if (sliderBox) {
+    await sliderHandle.dragTo(sliderHandle, {
+        targetPosition: {
+            x: sliderBox.width,  // Moves to the end of the slider
+            y: sliderBox.height / 2,
+        },
+    });
+}
+
+// Step 3: Wait until the slider value is 100
+await page.waitForSelector('.slider-value:text("100")');
+
+
+////////////////
 write this again:
 // Move the slider to the right until the value is 100
 
