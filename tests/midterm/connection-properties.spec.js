@@ -1,6 +1,257 @@
 //connection properties
 
 
+
+Task-2
+1. go to the e-commerce-midterm page
+2. increase the quantity of product A to 5
+3. add product A to the cart by clicking the add to cart button 
+4. increase the quantity of product A to 5
+5. add product A to the cart by clicking the add to cart button 
+6. then press the purchase button
+7. check that the Total Price is equal to 50 and print the corresponding message "Correct Price" or "Incorrect Price" in the console
+8. after the alert appears, accept the prompts of the alert
+9. display the success message of the alert in console
+10. close the browser window
+
+
+here is e-commerce-midterm.html file:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midterm E-Commerce</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Mid Term E-Commerce</h2>
+    <div class="mb-3">
+        
+    <div class="row" id="products">
+        <!-- Sample products -->
+        <div class="col-md-3 product" data-price="10" data-name="Product A">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product A</h5>
+                    <p class="card-text">$10</p>
+                    <div class="quantity-control">
+                        <button class="btn btn-light decrease-quantity" id="add">-</button>
+                        <span class="quantity-indicator">1</span>
+                        <button class="btn btn-light increase-quantity" id="Subtract">+</button>
+                    </div>
+                    <button class="btn btn-primary addToCart mt-2">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 product" data-price="100" data-name="Product B">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product B</h5>
+                    <p class="card-text">$100</p>
+                    <div class="quantity-control">
+                        <button class="btn btn-light decrease-quantity" id="add">-</button>
+                        <span class="quantity-indicator">1</span>
+                        <button class="btn btn-light increase-quantity" id="Subtract">+</button>
+                    </div>
+                    <button class="btn btn-primary addToCart mt-2">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 product" data-price="99" data-name="Product Z">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product Z</h5>
+                    <p class="card-text">$99</p>
+                    <div class="quantity-control">
+                        <button class="btn btn-light decrease-quantity" id="add">-</button>
+                        <span class="quantity-indicator">1</span>
+                        <button class="btn btn-light increase-quantity" id="Subtract">+</button>
+                    </div>
+                    <button class="btn btn-primary addToCart mt-2">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 product" data-price="100" data-name="Product J">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product J</h5>
+                    <p class="card-text">$99</p>
+                    <div class="quantity-control">
+                        <button class="btn btn-light decrease-quantity" id="add">-</button>
+                        <span class="quantity-indicator">1</span>
+                        <button class="btn btn-light increase-quantity" id="Subtract">+</button>
+                    </div>
+                    <button class="btn btn-primary addToCart mt-2">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        
+       
+        <!-- ... Add more products similarly ... -->
+    </div>
+    <div class="mt-5">
+        <h4>Cart</h4>
+        <ul id="cartItems"></ul>
+        <p>Total: $<span id="totalPrice">0</span></p>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-success" id="purchaseButton">Purchase</button>
+    </div>
+</div>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+        let cart = [];
+        let total = 0;
+
+        // Add to Cart functionality
+        $(".addToCart").click(function() {
+            let product = $(this).closest(".product");
+            let price = parseInt(product.data("price"));
+            let name = product.data("name");
+            let quantity = parseInt(product.find(".quantity-indicator").text());
+
+            
+
+            // Multiply the price by the quantity
+            let totalPriceForProduct = price * quantity;
+
+            cart.push({ name, price: totalPriceForProduct, quantity });
+            total += totalPriceForProduct;
+
+            updateCart();
+        });
+
+        // Update cart display
+        function updateCart() {
+            
+
+            $("#cartItems").empty();
+
+            $("#totalPrice").text(total);
+
+            cart.forEach(item => {
+                $("#cartItems").append(`
+                    <li class="cart-item">
+                        ${item.name} x${item.quantity} - $${item.price}
+                        <button class="btn btn-sm btn-danger removeItem" data-name="${item.name}">Remove</button>
+                    </li>
+                `);
+            });
+        }
+
+
+        $(".increase-quantity").click(function() {
+            let quantityIndicator = $(this).siblings(".quantity-indicator");
+            let currentQuantity = parseInt(quantityIndicator.text());
+            quantityIndicator.text(currentQuantity + 1);
+        });
+
+        $(".decrease-quantity").click(function() {
+            let quantityIndicator = $(this).siblings(".quantity-indicator");
+            let currentQuantity = parseInt(quantityIndicator.text());
+            if (currentQuantity > 1) {
+                quantityIndicator.text(currentQuantity - 1);
+            }
+        });
+
+        // Purchase Confirmation
+        $("#purchaseButton").click(function() {
+            let confirmation = confirm("Are you sure you want to make this purchase?");
+            if (confirmation) {
+                alert("Purchase successful!");
+                // Here, you can add any additional logic to handle the successful purchase.
+            } else {
+                alert("Purchase canceled.");
+            }
+        });
+
+
+        $(document).on("click", ".removeItem", function() {
+        let itemName = $(this).data("name");
+        let itemIndex = cart.findIndex(item => item.name === itemName);
+
+        if (itemIndex !== -1) {
+            total -= cart[itemIndex].price; // Subtract the item's price from the total
+            cart.splice(itemIndex, 1); // Remove the item from the cart array
+            updateCart(); // Update the cart display
+        }
+    });
+
+
+    });
+</script>
+<style>
+    .quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item {
+    margin: 10px;
+}
+
+.quantity-indicator {
+    margin: 0 10px;
+    font-weight: bold;
+}
+</style>
+
+</body>
+</html>
+
+
+
+end of e-commerce-midterm.html file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const { chromium } = require('playwright');
 
 (async () => {
