@@ -1,5 +1,20 @@
 //connection properties
 
+
+write this again:
+// Move the slider to the right until the value is 100
+
+given code doesn't pass the test:
+        const sliderHandle = page.locator('#slider div').nth(2);
+        await sliderHandle.evaluate(handle => {
+            handle.style.left = '100%';
+        });
+        await page.waitForSelector('.slider-value:text("100")'); // Wait for the slider to show value 100
+
+
+
+
+
 const { chromium } = require('playwright');
 
 (async () => {
